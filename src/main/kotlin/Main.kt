@@ -213,3 +213,4 @@ private fun askUserToChooseActiveNote(): Note? {
     }
     return null //selected note is not active
 }
+
