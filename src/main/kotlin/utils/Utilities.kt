@@ -1,14 +1,14 @@
 package utils
 
-import ie.setu.models.Item
-import ie.setu.models.Note
+import ie.setu.models.Artist
+import ie.setu.models.Venue
 
 
-fun formatListString(notesToFormat: List<Note>): String =
+fun formatListString(notesToFormat: List<Venue>): String =
     notesToFormat
         .joinToString(separator = "\n") { note -> "$note" }
 
-fun formatSetString(itemsToFormat: Set<Item>): String =
+fun formatSetString(itemsToFormat: Set<Artist>): String =
     itemsToFormat
         .joinToString(separator = "\n") { item -> "\t$item" }
 
