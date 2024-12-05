@@ -1,5 +1,5 @@
 package ie.setu.models
 
-data class Artist (var itemId: Int = 0,
-                   var itemContents : String,
-                   var isItemComplete: Boolean = false)
+data class Artist (var artistId: Int = 0,
+                   var artistContents : String,
+                   var isArtistComplete: Boolean = false)
