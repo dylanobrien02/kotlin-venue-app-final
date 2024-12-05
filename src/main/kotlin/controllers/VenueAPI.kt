@@ -15,70 +15,70 @@ class VenueAPI() {
     private fun getId() = lastId++
 
     // ----------------------------------------------
-    //  CRUD METHODS FOR NOTE ArrayList
+    //  CRUD METHODS FOR VENUE ArrayList
     // ----------------------------------------------
     fun add(venue: Venue): Boolean {
-        venue.noteId = getId()
+        venue.venueId = getId()
         return venues.add(venue)
     }
 
-    fun delete(id: Int) = venues.removeIf { note -> note.noteId == id }
+    fun delete(id: Int) = venues.removeIf { venue -> venue.venueId == id }
 
     fun update(id: Int, venue: Venue?): Boolean {
-        // find the note object by the index number
-        val foundNote = findNote(id)
+        // find the venue object by the index number
+        val foundVenue = findVenue(id)
 
-        // if the note exists, use the note details passed as parameters to update the found note in the ArrayList.
-        if ((foundNote != null) && (venue != null)) {
-            foundNote.noteTitle = venue.noteTitle
-            foundNote.notePriority = venue.notePriority
-            foundNote.noteCategory = venue.noteCategory
+        // if the venue exists, use the venue details passed as parameters to update the found venue in the ArrayList.
+        if ((foundVenue != null) && (venue != null)) {
+            foundVenue.venueTitle = venue.venueTitle
+            foundVenue.venuePriority = venue.venuePriority
+            foundVenue.venueCategory = venue.venueCategory
             return true
         }
 
-        // if the note was not found, return false, indicating that the update was not successful
+        // if the venue was not found, return false, indicating that the update was not successful
         return false
     }
 
-    fun archiveNote(id: Int): Boolean {
-        val foundNote = findNote(id)
-        if (( foundNote != null) && (!foundNote.isNoteArchived)
-          //  && ( foundNote.checkNoteCompletionStatus())
+    fun archiveVenue(id: Int): Boolean {
+        val foundVenue = findVenue(id)
+        if (( foundVenue != null) && (!foundVenue.isVenueArchived)
+          //  && ( foundVenue.checkVenueCompletionStatus())
         ){
-            foundNote.isNoteArchived = true
+            foundVenue.isVenueArchived = true
             return true
         }
         return false
     }
 
     // ----------------------------------------------
-    //  LISTING METHODS FOR NOTE ArrayList
+    //  LISTING METHODS FOR VENUE ArrayList
     // ----------------------------------------------
-    fun listAllNotes() =
-        if (venues.isEmpty()) "No notes stored"
+    fun listAllVenues() =
+        if (venues.isEmpty()) "No venues stored"
         else formatListString(venues)
 
-    fun listActiveNotes() =
-        if (numberOfActiveNotes() == 0) "No active notes stored"
-        else formatListString(venues.filter { note -> !note.isNoteArchived })
+    fun listActiveVenues() =
+        if (numberOfActiveVenues() == 0) "No active venues stored"
+        else formatListString(venues.filter { venue -> !venue.isVenueArchived })
 
-    fun listArchivedNotes() =
-        if (numberOfArchivedNotes() == 0) "No archived notes stored"
-        else formatListString(venues.filter { note -> note.isNoteArchived })
+    fun listArchivedVenues() =
+        if (numberOfArchivedVenues() == 0) "No archived venues stored"
+        else formatListString(venues.filter { venue -> venue.isVenueArchived })
 
     // ----------------------------------------------
-    //  COUNTING METHODS FOR NOTE ArrayList
+    //  COUNTING METHODS FOR VENUE ArrayList
     // ----------------------------------------------
-    fun numberOfNotes() = venues.size
-    fun numberOfArchivedNotes(): Int = venues.count { venue: Venue -> venue.isNoteArchived }
-    fun numberOfActiveNotes(): Int = venues.count { venue: Venue -> !venue.isNoteArchived }
+    fun numberOfVenues() = venues.size
+    fun numberOfArchivedVenues(): Int = venues.count { venue: Venue -> venue.isVenueArchived }
+    fun numberOfActiveVenues(): Int = venues.count { venue:Venue -> !venue.isVenueArchived }
 
     // ----------------------------------------------
     //  SEARCHING METHODS
     // ---------------------------------------------
-    fun findNote(noteId : Int) =  venues.find{ note -> note.noteId == noteId }
+    fun findVenue(venueId : Int) =  venues.find{ venue -> venue.venueId == venueId }
 
-    fun searchNotesByTitle(searchString: String) =
-        formatListString(venues.filter { note -> note.noteTitle.contains(searchString, ignoreCase = true) })
+    fun searchVenuesByTitle(searchString: String) =
+        formatListString(venues.filter { venue -> venue.venueTitle.contains(searchString, ignoreCase = true) })
 
 }

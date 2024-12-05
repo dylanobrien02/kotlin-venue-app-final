@@ -1,5 +1,5 @@
-import controllers.VenueAPI
 import ie.setu.models.Venue
+import controllers.VenueAPI
 import utils.readNextInt
 import utils.readNextLine
 import kotlin.system.exitProcess
@@ -12,7 +12,7 @@ fun runMenu() {
     do {
         when (val option = mainMenu()) {
             1 -> addVenue()
-            2 -> listVenue()
+            2 -> listVenues()
             3 -> updateVenue()
             4 -> deleteVenue()
             5 -> archiveVenue()
@@ -20,7 +20,7 @@ fun runMenu() {
             //7 -> updateArtistContentsInVenue()
             //8 -> deleteAnArtist()
             //9 -> markArtistStatus()
-            10 -> searchVenue()
+            10 -> searchVenues()
             //15 -> searchArtists()
             //16 -> listToDoArtists()
             0 -> exitApp()
@@ -119,7 +119,7 @@ fun updateVenue() {
             val venueCategory = readNextLine("Enter a category for the venue: ")
 
             // pass the index of the venue and the new venue details to VenueAPI for updating and check for success.
-            if (venueAPI.update(id, Venue(0, VenueTitle, VenuePriority, VenueCategory, false))){
+            if (venueAPI.update(id, Venue(0, venueTitle, venuePriority, venueCategory, false))){
                 println("Update Successful")
             } else {
                 println("Update Failed")
@@ -201,7 +201,7 @@ private fun askUserToChooseActiveVenue(): Venue? {
     if (venueAPI.numberOfActiveVenues() > 0) {
         val venue = venueAPI.findVenue(readNextInt("\nEnter the id of the venue: "))
         if (venue != venue) {
-            if (venue.isVenueArchived) {
+            if (venue!!.isVenueArchived) {
                 println("Venue is NOT Active, it is Archived")
             } else {
                 return venue //chosen venue is active
