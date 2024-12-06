@@ -1,5 +1,5 @@
 package controllers
-
+import ie.setu.models.Artist
 import ie.setu.models.Venue
 import utils.formatListString
 import java.util.ArrayList
@@ -82,4 +82,43 @@ class VenueAPI() {
     fun searchVenuesByTitle(searchString: String) =
         formatListString(venues.filter { venue -> venue.venueTitle.contains(searchString, ignoreCase = true) })
 
+    fun addArtistToVenue(venueId: Int, artist: Artist): Boolean {
+        val venue = findVenue(venueId)
+        return if (venue != null) {
+            artist.artistId = venue.artists.size + 1
+            venue.artists.add(artist)
+            true
+        } else {
+            false
+        }
+    }
+
+    fun listArtistsForVenue(venueId: Int): String {
+        val venue = findVenue(venueId)
+        return if (venue != null && venue.artists.isNotEmpty()) {
+            venue.artists.joinToString("\n") { artist ->
+                "Artist ID: ${artist.artistId}, Name: ${artist.name}, Genre: ${artist.genre}, Performance Date: ${artist.performanceDate} "
+            }
+        } else {
+        "No artist found"
+        }
+    }
+
+    fun updateArtistInVenue(venueId: Int, artistId: Int, updatedArtist: Artist): Boolean {
+        val venue = findVenue(venueId)
+        val artist = venue?.artists?.find { it.artistId == artistId}
+        return if (artist != null) {
+            artist.name = updatedArtist.name
+            artist.genre = updatedArtist.genre
+            artist.performanceDate = updatedArtist.performanceDate
+            true
+        } else {
+            false
+        }
+    }
+
+    fun deleteArtistFromVenue(venueId: Int, artistId: Int): Boolean {
+        val venue = findVenue(venueId)
+        return venue?.artists?.removeIf { it.artistId == artistId } ?: false
+    }
 }

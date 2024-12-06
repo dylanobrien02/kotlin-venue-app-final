@@ -1,5 +1,7 @@
 import ie.setu.models.Venue
+import ie.setu.models.Artist
 import controllers.VenueAPI
+import utils.readNextChar
 import utils.readNextInt
 import utils.readNextLine
 import kotlin.system.exitProcess
@@ -16,13 +18,11 @@ fun runMenu() {
             3 -> updateVenue()
             4 -> deleteVenue()
             5 -> archiveVenue()
-            //6 -> addArtistToVenue()
-            //7 -> updateArtistContentsInVenue()
-            //8 -> deleteAnArtist()
-            //9 -> markArtistStatus()
+            6 -> addArtistToVenue()
+            7 -> updateArtistInVenue()
+            8 -> deleteArtistFromVenue()
+            9 -> listArtistsForVenue()
             10 -> searchVenues()
-            //15 -> searchArtists()
-            //16 -> listToDoArtists()
             0 -> exitApp()
             else -> println("Invalid menu choice: $option")
         }
@@ -43,8 +43,9 @@ fun mainMenu() = readNextInt(
          > -----------------------------------------------------  
          > | ARTIST MENU                                       | 
          > |   6) Add artist to a venue                        |
-         > |   7) Update artist contents on a venue            |
+         > |   7) Update artist details on a venue             |
          > |   8) Delete artist from a venue                   |
+         > |   9) List artists in a venue                      |
          > -----------------------------------------------------  
          > | REPORT MENU FOR VENUES                            | 
          > |   10) Search for all venues                       |
@@ -181,6 +182,47 @@ fun searchVenues() {
     }
 }
 
+fun addArtistToVenue() {
+    val venueId = readNextInt("Enter the Id of the venue: ")
+    val artistName = readNextLine("Enter the name of the artist: ")
+    val artistGenre = readNextLine("Enter the genre of the artist:")
+    val performanceDate = readNextLine("Enter the performance date of the artist: ")
+
+    val isAdded = venueAPI.addArtistToVenue(venueId, Artist(name = artistName, genre = artistGenre, performanceDate = performanceDate))
+    if (isAdded) {
+        println("Artist added Successfully!")
+    } else {
+        println("Failed to add artist. Venue ID not found.")
+    }
+}
+
+fun listArtistsForVenue(){
+    val venueId = readNextInt("Enter the ID of the venue: ")
+    println(venueAPI.listArtistsForVenue(venueId))
+}
+
+fun updateArtistInVenue() {
+    val venueId = readNextInt("Enter the ID of the venue: ")
+    val artistId = readNextInt("Enter the ID of the artist to update: ")
+
+    val updatedName = readNextLine("Enter the updated name of the artist: ")
+    val updatedGenre = readNextLine("Enter the updated genre of the artist: ")
+    val updatedPerformanceDate = readNextLine("Enter the updated performance date of the artist: ")
+
+    val isUpdated = venueAPI.updateArtistInVenue(venueId, artistId, Artist(name = updatedName, genre = updatedGenre, performanceDate = updatedPerformanceDate))
+}
+
+fun deleteArtistFromVenue() {
+    val venueId = readNextInt("Enter the ID of the venue: ")
+    val artistId = readNextInt("Enter the ID of the artist to delete: ")
+
+    val isDeleted = venueAPI.deleteArtistFromVenue(venueId, artistId)
+    if (isDeleted) {
+        println("Artist deleted successfully!")
+    } else {
+        println("Failed to delete artist. Check venue and artist IDs.")
+    }
+}
 //------------------------------------
 //ARTIST REPORTS MENU
 //------------------------------------
