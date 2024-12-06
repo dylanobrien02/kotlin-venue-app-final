@@ -31,8 +31,9 @@ class VenueAPI() {
         // if the venue exists, use the venue details passed as parameters to update the found venue in the ArrayList.
         if ((foundVenue != null) && (venue != null)) {
             foundVenue.venueTitle = venue.venueTitle
-            foundVenue.venuePriority = venue.venuePriority
-            foundVenue.venueCategory = venue.venueCategory
+            foundVenue.venueCapacity = venue.venueCapacity
+            foundVenue.venueRating = venue.venueRating
+            foundVenue.venueAddress = venue.venueAddress
             return true
         }
 
