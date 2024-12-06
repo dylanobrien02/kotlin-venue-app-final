@@ -70,9 +70,10 @@ fun mainMenu() = readNextInt(
 //------------------------------------
 fun addVenue() {
     val venueTitle = readNextLine("Enter a title for the venue: ")
-    val venuePriority = readNextInt("Enter a priority (1-low, 2, 3, 4, 5-high): ")
-    val venueCategory = readNextLine("Enter a category for the venue: ")
-    val isAdded = venueAPI.add(Venue(venueTitle = venueTitle, venuePriority = venuePriority, venueCategory = venueCategory))
+    val venueCapacity = readNextInt("Enter the capacity for the venue: ")
+    val venueRating = readNextInt("Enter the rating for the venue: ")
+    val venueAddress = readNextLine("Enter the address for the venue: ")
+    val isAdded = venueAPI.add(Venue(venueTitle = venueTitle, venueCapacity = venueCapacity, venueRating = venueRating, venueAddress = venueAddress))
 
     if (isAdded) {
         println("Added Successfully")
@@ -115,11 +116,13 @@ fun updateVenue() {
         val id = readNextInt("Enter the id of the venue to update: ")
         if (venueAPI.findVenue(id) != null) {
             val venueTitle = readNextLine("Enter a title for the venue: ")
-            val venuePriority = readNextInt("Enter a priority (1-low, 2, 3, 4, 5-high): ")
-            val venueCategory = readNextLine("Enter a category for the venue: ")
+            val venueCapacity = readNextInt("Enter the new capacity for the venue: ")
+            val venueRating = readNextInt("Enter the new rating for the venue (1-low, 5-high): ")
+            val venueAddress = readNextLine("Enter the new address for the venue: ")
+
 
             // pass the index of the venue and the new venue details to VenueAPI for updating and check for success.
-            if (venueAPI.update(id, Venue(0, venueTitle, venuePriority, venueCategory, false))){
+            if (venueAPI.update(id, Venue(0, venueTitle, venueCapacity, venueRating, venueAddress, false))){
                 println("Update Successful")
             } else {
                 println("Update Failed")
