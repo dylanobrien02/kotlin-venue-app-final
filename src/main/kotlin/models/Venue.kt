@@ -8,3 +8,4 @@ data class Venue(var venueId: Int = 0,
                  var isIndoor: Boolean, //true for indoor and false for outdoor
                  val artists: MutableList<Artist> = mutableListOf()
     )
+
