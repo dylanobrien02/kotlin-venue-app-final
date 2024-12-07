@@ -1,12 +1,15 @@
+import persistence.XMLSerializer
+import persistence.JSONSerializer
+import java.io.File
+import controllers.VenueAPI
 import ie.setu.models.Venue
 import ie.setu.models.Artist
-import controllers.VenueAPI
 import utils.readNextChar
 import utils.readNextInt
 import utils.readNextLine
 import kotlin.system.exitProcess
 
-private val venueAPI = VenueAPI()
+private val venueAPI = VenueAPI(JSONSerializer(File("venue.json")))
 
 fun main() = runMenu()
 
@@ -23,10 +26,30 @@ fun runMenu() {
             8 -> deleteArtistFromVenue()
             9 -> listArtistsForVenue()
             10 -> searchVenues()
+            11 -> save()
+            12 -> load()
             0 -> exitApp()
             else -> println("Invalid menu choice: $option")
         }
     } while (true)
+}
+
+fun save() {
+    try {
+        venueAPI.store()
+        println("Venues successfully saved to file")
+    } catch (e: Exception) {
+        System.err.println("Error Writing to file: $e")
+    }
+}
+
+fun load() {
+    try {
+        venueAPI.load()
+        println("Venues successfully loaded from file")
+    } catch (e: Exception) {
+        System.err.println("Error reading from file: $e")
+    }
 }
 
 fun mainMenu() = readNextInt(
@@ -50,6 +73,10 @@ fun mainMenu() = readNextInt(
          > | SEARCH MENU                                       |
          > |   10) Search venues by title                      |
          > |   11) Feature Coming Soon                         |
+         > -----------------------------------------------------
+         > | SAVE/LOAD MENU                                    |
+         > |   12) Save Venues to File                         |
+         > |   13) Load Venues from File                       |
          > -----------------------------------------------------
          > | EXIT VENUE APP                                    |
          > |   0) Exit the application                         |

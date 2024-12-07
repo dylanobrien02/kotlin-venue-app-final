@@ -2,9 +2,10 @@ package controllers
 import ie.setu.models.Artist
 import ie.setu.models.Venue
 import utils.formatListString
+import persistence.Serializer
 import java.util.ArrayList
 
-class VenueAPI() {
+class VenueAPI(private val serializer: Serializer) {
 
     private var venues = ArrayList<Venue>()
 
@@ -15,8 +16,19 @@ class VenueAPI() {
     private fun getId() = lastId++
 
     // ----------------------------------------------
-    //  CRUD METHODS FOR VENUE ArrayList
+    //  METHODS FOR SAVING AND LOADING VENUES
     // ----------------------------------------------
+
+    @Throws(Exception::class)
+    fun load() {
+        venues = serializer.read() as ArrayList<Venue>
+    }
+
+    @Throws(Exception::class)
+    fun store() {
+        serializer.write(venues)
+    }
+
     fun add(venue: Venue): Boolean {
         venue.venueId = getId()
         return venues.add(venue)
