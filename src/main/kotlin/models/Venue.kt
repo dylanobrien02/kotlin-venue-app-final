@@ -5,6 +5,6 @@ data class Venue(var venueId: Int = 0,
                  var venueCapacity: Int,
                  var venueRating : Int,
                  var venueAddress: String,
-                 var isVenueArchived: Boolean = false,
+                 var isIndoor: Boolean, //true for indoor and false for outdoor
                  val artists: MutableList<Artist> = mutableListOf()
     )
