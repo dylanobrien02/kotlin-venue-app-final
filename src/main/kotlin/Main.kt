@@ -1,4 +1,5 @@
 import persistence.XMLSerializer
+import persistence.JSONSerializer
 import java.io.File
 import controllers.VenueAPI
 import ie.setu.models.Venue
@@ -8,7 +9,7 @@ import utils.readNextInt
 import utils.readNextLine
 import kotlin.system.exitProcess
 
-private val venueAPI = VenueAPI(XMLSerializer(File("venues.xml")))
+private val venueAPI = VenueAPI(JSONSerializer(File("venue.json")))
 
 fun main() = runMenu()
 
