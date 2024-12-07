@@ -41,12 +41,10 @@ class VenueAPI() {
         return false
     }
 
-    fun archiveVenue(id: Int): Boolean {
+    fun toggleVenueType(id: Int): Boolean {
         val foundVenue = findVenue(id)
-        if (( foundVenue != null) && (!foundVenue.isVenueArchived)
-          //  && ( foundVenue.checkVenueCompletionStatus())
-        ){
-            foundVenue.isVenueArchived = true
+        if (foundVenue != null) {
+            foundVenue.isIndoor = !foundVenue.isIndoor
             return true
         }
         return false
@@ -59,20 +57,19 @@ class VenueAPI() {
         if (venues.isEmpty()) "No venues stored"
         else formatListString(venues)
 
-    fun listActiveVenues() =
-        if (numberOfActiveVenues() == 0) "No active venues stored"
-        else formatListString(venues.filter { venue -> !venue.isVenueArchived })
+    fun listIndoorVenues() =
+        if (venues.none { it.isIndoor}) "No Indoor venues stored"
+        else formatListString(venues)
 
-    fun listArchivedVenues() =
-        if (numberOfArchivedVenues() == 0) "No archived venues stored"
-        else formatListString(venues.filter { venue -> venue.isVenueArchived })
-
+    fun listOutdoorVenues() =
+        if (venues.none { !it.isIndoor }) "No Outdoor venues stored"
+        else formatListString(venues.filter {!it.isIndoor })
     // ----------------------------------------------
     //  COUNTING METHODS FOR VENUE ArrayList
     // ----------------------------------------------
     fun numberOfVenues() = venues.size
-    fun numberOfArchivedVenues(): Int = venues.count { venue: Venue -> venue.isVenueArchived }
-    fun numberOfActiveVenues(): Int = venues.count { venue:Venue -> !venue.isVenueArchived }
+    fun numberOfOutdoorVenues(): Int = venues.count { venue: Venue -> !venue.isIndoor}
+    fun numberOfIndoorVenues(): Int = venues.count { venue: Venue -> venue.isIndoor}
 
     // ----------------------------------------------
     //  SEARCHING METHODS
