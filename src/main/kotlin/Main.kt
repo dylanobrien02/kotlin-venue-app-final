@@ -1,10 +1,8 @@
-import persistence.XMLSerializer
 import persistence.JSONSerializer
 import java.io.File
 import controllers.VenueAPI
 import ie.setu.models.Venue
 import ie.setu.models.Artist
-import utils.readNextChar
 import utils.readNextInt
 import utils.readNextLine
 import kotlin.system.exitProcess
@@ -28,6 +26,8 @@ fun runMenu() {
             10 -> searchVenues()
             11 -> save()
             12 -> load()
+            13 -> println("Number of Indoor Venues: ${venueAPI.numberOfIndoorVenues()}")
+            14 -> println("Number of Outdoor Venues: ${venueAPI.numberOfOutdoorVenues()}")
             0 -> exitApp()
             else -> println("Invalid menu choice: $option")
         }
@@ -72,11 +72,15 @@ fun mainMenu() = readNextInt(
          > -----------------------------------------------------
          > | SEARCH MENU                                       |
          > |   10) Search venues by title                      |
-         > |   11) Feature Coming Soon                         |
+         > |   ??) Feature Coming Soon                         |
          > -----------------------------------------------------
          > | SAVE/LOAD MENU                                    |
-         > |   12) Save Venues to File                         |
-         > |   13) Load Venues from File                       |
+         > |   11) Save Venues to File                         |
+         > |   11) Load Venues from File                       |
+         > -----------------------------------------------------
+         > |  SHOW NUMBER OF VENUES                            |
+         > |   13) Show Number of Indoor Venues                |
+         > |   14) Show Number of Outdoor Venues               |
          > -----------------------------------------------------
          > | EXIT VENUE APP                                    |
          > |   0) Exit the application                         |
@@ -203,15 +207,6 @@ fun toggleVenueType() {
     }
 }
 
-//-------------------------------------------
-//ARTIST MENU (only available for active venues)
-//-------------------------------------------
-
-//TODO
-
-//------------------------------------
-//VENUE REPORTS MENU
-//------------------------------------
 
 fun addArtistToVenue() {
     val venueId = readNextInt("Enter the Id of the venue: ")
