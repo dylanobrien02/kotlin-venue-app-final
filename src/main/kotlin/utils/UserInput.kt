@@ -1,7 +1,10 @@
 package utils
 
-fun readIntNotNull() = readlnOrNull()?.toIntOrNull() ?: -1
-
+/**
+ * Prompts the user with a message and reads a valid integer input
+ * @param prompt A string message displayed to user before input
+ * @return The integer value entered by the user
+ */
 fun readNextInt(prompt: String?): Int {
     do {
         try {
@@ -13,46 +16,12 @@ fun readNextInt(prompt: String?): Int {
     } while (true)
 }
 
-fun readDoubleNotNull() = readlnOrNull()?.toDoubleOrNull() ?: -1.0
-
-fun readNextDouble(prompt: String?): Double {
-    do {
-        try {
-            print(prompt)
-            return readln().toDouble()
-        } catch (e: NumberFormatException) {
-            System.err.println("\tEnter a decimal number please.")
-        }
-    } while (true)
-}
-
-fun readFloatNotNull() = readlnOrNull()?.toFloatOrNull() ?: -1.0f
-
-fun readNextFloat(prompt: String?): Float {
-    do {
-        try {
-            print(prompt)
-            return readln().toFloat()
-        } catch (e: NumberFormatException) {
-            System.err.println("\tEnter a decimal number please.")
-        }
-    } while (true)
-}
-
-
+/**
+ * Prompts user with a message and reads a string input
+ * @param prompt A string message displayed to the user before input
+ * @return The string value entered by the user
+ */
 fun readNextLine(prompt: String?): String {
     print(prompt)
     return readln()
-}
-
-
-fun readNextChar(prompt: String?): Char {
-    do {
-        try {
-            print(prompt)
-            return readln().first()
-        } catch (e: Exception) {
-            System.err.println("\tEnter a character please.")
-        }
-    } while (true)
 }
