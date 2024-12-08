@@ -104,7 +104,6 @@ fun mainMenu() = readNextInt(
          > -----------------------------------------------------
          > |  OTHER                                            |
          > |   15) Toggle Venue Type                           |
-         > |   16) Show Number of Outdoor Venues               |
          > -----------------------------------------------------
          > | EXIT VENUE APP                                    |
          > |   0) Exit the application                         |
