@@ -38,6 +38,7 @@ fun runMenu() {
             12 -> load()
             13 -> println("Number of Indoor Venues: ${venueAPI.numberOfIndoorVenues()}")
             14 -> println("Number of Outdoor Venues: ${venueAPI.numberOfOutdoorVenues()}")
+            15 -> toggleVenueType()
             0 -> exitApp()
             else -> println("Invalid menu choice: $option")
         }
@@ -64,7 +65,7 @@ fun load() {
         venueAPI.load()
         println("Venues successfully loaded from file")
     } catch (e: Exception) {
-        System.err.println("Error reading from file: $e")
+        System.err.println("Error reading venues from file: $e")
     }
 }
 
@@ -92,15 +93,18 @@ fun mainMenu() = readNextInt(
          > -----------------------------------------------------
          > | SEARCH MENU                                       |
          > |   10) Search venues by title                      |
-         > |   ??) Feature Coming Soon                         |
          > -----------------------------------------------------
          > | SAVE/LOAD MENU                                    |
          > |   11) Save Venues to File                         |
-         > |   11) Load Venues from File                       |
+         > |   12) Load Venues from File                       |
          > -----------------------------------------------------
          > |  SHOW NUMBER OF VENUES                            |
          > |   13) Show Number of Indoor Venues                |
          > |   14) Show Number of Outdoor Venues               |
+         > -----------------------------------------------------
+         > |  OTHER                                            |
+         > |   15) Toggle Venue Type                           |
+         > |   16) Show Number of Outdoor Venues               |
          > -----------------------------------------------------
          > | EXIT VENUE APP                                    |
          > |   0) Exit the application                         |
@@ -290,6 +294,11 @@ fun updateArtistInVenue() {
     val updatedPerformanceDate = readNextLine("Enter the updated performance date of the artist: ")
 
     val isUpdated = venueAPI.updateArtistInVenue(venueId, artistId, Artist(name = updatedName, genre = updatedGenre, performanceDate = updatedPerformanceDate))
+    if (isUpdated) {
+        println("Artist updated successfully!")
+    } else {
+        println("failed to update artist. Venue ID not found.")
+    }
 }
 
 /**
@@ -318,7 +327,7 @@ fun toggleVenueTypeFromMenu(){
     if (isToggled) {
         println("Venue type toggled successfully!")
     } else {
-        println("Venue not found.")
+        println("Venue was not found.")
     }
 }
 
@@ -340,6 +349,6 @@ fun searchVenues() {
  * Exits the Venue App
  */
 fun exitApp() {
-    println("Exiting...bye")
+    println("Thank You For Visiting the Venue App")
     exitProcess(0)
 }
