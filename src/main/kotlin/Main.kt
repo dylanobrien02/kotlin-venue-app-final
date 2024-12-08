@@ -7,10 +7,20 @@ import utils.readNextInt
 import utils.readNextLine
 import kotlin.system.exitProcess
 
+/**
+* The main instance of VenueAPI for managing venue data.
+ * @constructor Creates and initializes the venue app with a JSON serializer for venue persistence
+ */
 private val venueAPI = VenueAPI(JSONSerializer(File("venue.json")))
 
+/**
+ * Function to launch app and display menu
+ */
 fun main() = runMenu()
 
+/**
+ * Displays the main menu and handles inputs to perform tasks
+ */
 fun runMenu() {
     do {
         when (val option = mainMenu()) {
@@ -34,6 +44,9 @@ fun runMenu() {
     } while (true)
 }
 
+/**
+ * Saves venue data to venue.json
+ */
 fun save() {
     try {
         venueAPI.store()
@@ -43,6 +56,9 @@ fun save() {
     }
 }
 
+/**
+ * Loads venue data from venue.json
+ */
 fun load() {
     try {
         venueAPI.load()
@@ -52,6 +68,10 @@ fun load() {
     }
 }
 
+/**
+ * Displays the main menu option and reads user inputs.
+ * @return the user's selected menu option as an Int
+ */
 fun mainMenu() = readNextInt(
     """ 
          > -----------------------------------------------------
@@ -88,9 +108,10 @@ fun mainMenu() = readNextInt(
          > ==>> """.trimMargin(">")
 )
 
-//------------------------------------
-//VENUE MENU
-//------------------------------------
+/**
+ * Adds a new venue
+ * Asks the user for details about the venue (Title, Capacity, Rating, Address and whether the venue is indoor or outdoor).
+ */
 fun addVenue() {
     val venueTitle = readNextLine("Enter a title for the venue: ")
     val venueCapacity = readNextInt("Enter the capacity for the venue: ")
@@ -121,6 +142,9 @@ fun addVenue() {
     }
 }
 
+/**
+ * Lists all venues based on users choice (All, Indoor or Outdoor)
+ */
 fun listVenues() {
     if (venueAPI.numberOfVenues() > 0) {
         val option = readNextInt(
@@ -144,14 +168,29 @@ fun listVenues() {
     }
 }
 
+/**
+ * Lists all venues
+ */
 fun listAllVenues() = println(venueAPI.listAllVenues())
+
+/**
+ * Lists all indoor venues
+ */
 fun listIndoorVenues() = println(venueAPI.listIndoorVenues())
+
+/**
+ * lists all outdoor venues
+ */
 fun listOutdoorVenues() = println(venueAPI.listOutdoorVenues())
 
+/**
+ * Updates the details of an existing venue
+ * Shows a list of venues and asks user to choose a specific venue to update
+ * Validates users choice and updates the venue details if the ID exists
+ */
 fun updateVenue() {
     listVenues()
     if (venueAPI.numberOfVenues() > 0) {
-        // only ask the user to choose the venue if venues exist
         val id = readNextInt("Enter the id of the venue to update: ")
         if (venueAPI.findVenue(id) != null) {
             val venueTitle = readNextLine("Enter a title for the venue: ")
@@ -165,7 +204,6 @@ fun updateVenue() {
             val venueRating = readNextInt("Enter the new rating for the venue (1-low, 5-high): ")
             val venueAddress = readNextLine("Enter the new address for the venue: ")
 
-            // pass the index of the venue and the new venue details to VenueAPI for updating and check for success.
             if (venueAPI.update(id, Venue(0, venueTitle, venueCapacity, venueRating, venueAddress, false))){
                 println("Update Successful")
             } else {
@@ -177,12 +215,14 @@ fun updateVenue() {
     }
 }
 
+/**
+ * Deletes a venue
+ * Shows a list of venues and asks user to select a venue to be deleted
+ */
 fun deleteVenue() {
     listVenues()
     if (venueAPI.numberOfVenues() > 0) {
-        // only ask the user to choose the venue to delete if venues exist
         val id = readNextInt("Enter the id of the venue to delete: ")
-        // pass the index of the venue to VenueAPI for deleting and check for success.
         val venueToDelete = venueAPI.delete(id)
         if (venueToDelete) {
             println("Delete Successful!")
@@ -192,6 +232,9 @@ fun deleteVenue() {
     }
 }
 
+/**
+ * Toggles the venue type for a specific venue ID
+ */
 fun toggleVenueType() {
     listVenues()
     if (venueAPI.numberOfVenues() > 0) {
@@ -207,7 +250,10 @@ fun toggleVenueType() {
     }
 }
 
-
+/**
+ * Adds an artist to a specific venue
+ * Asks user for artist details and associates the artist with the venue picked
+ */
 fun addArtistToVenue() {
     val venueId = readNextInt("Enter the Id of the venue: ")
     val artistName = readNextLine("Enter the name of the artist: ")
@@ -222,11 +268,19 @@ fun addArtistToVenue() {
     }
 }
 
+/**
+ * lists all artists associated with a specific venue ID
+ * Asks the user for a venue ID and displays the artists associated with that venue
+ */
 fun listArtistsForVenue(){
     val venueId = readNextInt("Enter the ID of the venue: ")
     println(venueAPI.listArtistsForVenue(venueId))
 }
 
+/**
+ * Updates the details of an artist within a specific venue
+ * Asks user for the venue and artist IDs and the updated artist details
+ */
 fun updateArtistInVenue() {
     val venueId = readNextInt("Enter the ID of the venue: ")
     val artistId = readNextInt("Enter the ID of the artist to update: ")
@@ -238,6 +292,10 @@ fun updateArtistInVenue() {
     val isUpdated = venueAPI.updateArtistInVenue(venueId, artistId, Artist(name = updatedName, genre = updatedGenre, performanceDate = updatedPerformanceDate))
 }
 
+/**
+ * Deletes an artist from a specific venue
+ * Asks user for the venue and artist IDs and removes the artist from the venue
+ */
 fun deleteArtistFromVenue() {
     val venueId = readNextInt("Enter the ID of the venue: ")
     val artistId = readNextInt("Enter the ID of the artist to delete: ")
@@ -250,6 +308,10 @@ fun deleteArtistFromVenue() {
     }
 }
 
+/**
+ * Toggles the type of venue (Indoor or Outdoor) by its ID
+ * Asks the user for a venue ID and switches its type
+ */
 fun toggleVenueTypeFromMenu(){
     val id = readNextInt("Enter the ID of the venue to toggle its type (Indoor or Outdoor): ")
     val isToggled = venueAPI.toggleVenueType(id)
@@ -260,6 +322,10 @@ fun toggleVenueTypeFromMenu(){
     }
 }
 
+/**
+ * Search for venues by their titles
+ * Asks user for a search and displays matching venues
+ */
 fun searchVenues() {
     val searchTitle = readNextLine("Enter the description to search by: ")
     val searchResults = venueAPI.searchVenuesByTitle(searchTitle)
@@ -270,6 +336,9 @@ fun searchVenues() {
     }
 }
 
+/**
+ * Exits the Venue App
+ */
 fun exitApp() {
     println("Exiting...bye")
     exitProcess(0)
