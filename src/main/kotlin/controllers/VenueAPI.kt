@@ -67,10 +67,9 @@ class VenueAPI(private val serializer: Serializer) {
      * @return True if the update was successful, false if it was not
      */
     fun update(id: Int, venue: Venue?): Boolean {
-        // find the venue object by the index number
+
         val foundVenue = findVenue(id)
 
-        // if the venue exists, use the venue details passed as parameters to update the found venue in the ArrayList.
         if ((foundVenue != null) && (venue != null)) {
             foundVenue.venueTitle = venue.venueTitle
             foundVenue.venueCapacity = venue.venueCapacity
@@ -79,7 +78,6 @@ class VenueAPI(private val serializer: Serializer) {
             return true
         }
 
-        // if the venue was not found, return false, indicating that the update was not successful
         return false
     }
 
