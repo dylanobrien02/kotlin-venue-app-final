@@ -155,7 +155,7 @@ fun listVenues() {
                   > --------------------------------
                   > |   1) View ALL venues         |
                   > |   2) View INDOOR venues      |
-                  > |   3) View OUTDOOR venues    |
+                  > |   3) View OUTDOOR venues     |
                   > --------------------------------
          > ==>> """.trimMargin(">")
         )
